@@ -1,59 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Generic; // Necessário para usar List<>
 
 namespace ConsoleApp1
 {
-    internal class Cliente
+    public class Cliente
     {
-        public int Id;
-        public string Nome;
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Senha { get; set; } // <--- NOVO: Necessário para o Login
 
-        public List<Conta> Contas = new List<Conta>();
+        // A lista já nasce instanciada para evitar erros de "NullReference"
+        public List<Conta> Contas { get; set; } = new List<Conta>();
 
-        public void DadosCliente()
+        public void AdicionarConta(Conta conta)
         {
-            Console.WriteLine($"Nome: {Nome}");
-            Console.WriteLine($"Id: {Id}");
+            // Adiciona na lista deste cliente
+            Contas.Add(conta);
+
+            // Avisa para a conta que este cliente é o dono dela
+            conta.Titular = this;
         }
 
-        public Conta VerContas()
+        // Método opcional para listar na tela (ajuda nos testes)
+        public void MostrarContas()
         {
-            if (Contas.Count == 0)
-            {
-                Console.WriteLine("Não há contas cadastradas.");
-                return null;
-            }
-
-            Console.WriteLine("=== Contas abertas ===");
-
-            for (int i = 0; i < Contas.Count; i++)
-            {
-                var c = Contas[i];
-                Console.WriteLine($"{i + 1} - Conta: {c.NumeroDaConta} | Tipo: {c.GetType().Name}");
-            }
-
-            Console.Write("Escolha a conta pelo número da lista: ");
-            if (!int.TryParse(Console.ReadLine(), out int opcao) || opcao < 1 || opcao > Contas.Count)
-            {
-                Console.WriteLine("Conta não encontrada.");
-                return null;
-            }
-
-            return Contas[opcao - 1]; // retorna a conta selecionada
-        }
-
-        public Conta AcessarConta(int numeroDaConta)
-        {
+            Console.WriteLine($"\nContas de {Nome}:");
             foreach (var conta in Contas)
             {
-                if (conta.NumeroDaConta == numeroDaConta)
-                {
-                    return conta;
-                }
+                Console.WriteLine($" - {conta.TipoDeConta}: Nº {conta.NumeroDaConta} | Saldo: {conta.Saldo:C}");
             }
-
-            Console.WriteLine("Conta não encontrada.");
-            return null;
         }
     }
 }

@@ -1,32 +1,39 @@
-﻿namespace ConsoleApp1
+﻿using System;
+
+namespace ConsoleApp1
 {
-    internal class ContaPoupanca : Conta
+    public class ContaPoupanca : Conta
     {
-
-        public override string TipoDeConta => "Conta Poupança";
-        public override void Saque(decimal valor)
-
+        public ContaPoupanca()
         {
-            if (valor <= 0)
-            {
-                Console.WriteLine("Valor inválido.");
-                return;
-            }
-
-            if (Saldo < valor)
-            {
-                Console.WriteLine("Saldo insuficiente.");
-                return;
-            }
-
-            Saldo -= valor;
+            TipoDeConta = "Conta Poupança";
         }
 
-        public void RenderJuros(decimal percentual)
+        public override void Saque(decimal valor)
         {
-            if (percentual <= 0) return;
+            // Taxa de 0.10 centavos
+            if (valor + 0.10m > Saldo)
+            {
+                Console.WriteLine("Saldo insuficiente para saque + taxa!");
+            }
+            else
+            {
+                Saldo -= (valor + 0.10m);
+                Console.WriteLine($"Saque de {valor:C} realizado (Taxa: R$ 0,10)");
+            }
+        }
 
-            Saldo += Saldo * percentual;
+        // --- NOVO: FAZ O DINHEIRO CRESCER ---
+        public void RenderJuros()
+        {
+            decimal taxa = 0.05m; // 5% de rendimento
+            decimal lucro = Saldo * taxa;
+
+            Saldo += lucro;
+
+            Console.WriteLine($"\n[SUCESSO] Rendimento aplicado!");
+            Console.WriteLine($"Você ganhou: {lucro:C}");
+            Console.WriteLine($"Novo Saldo: {Saldo:C}");
         }
     }
 }

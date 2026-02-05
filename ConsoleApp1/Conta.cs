@@ -1,24 +1,42 @@
-﻿namespace ConsoleApp1
+﻿using System;
+using System.Text.Json.Serialization; // <--- ISSO CORRIGE O ERRO DE BUILD
+
+namespace ConsoleApp1
 {
-    internal abstract class Conta
+    [JsonDerivedType(typeof(ContaCorrente), typeDiscriminator: "corrente")]
+    [JsonDerivedType(typeof(ContaPoupanca), typeDiscriminator: "poupanca")]
+    public abstract class Conta
     {
-        public int NumeroDaConta;
-        public decimal Saldo;
-        public Cliente Titular;
+        public int NumeroDaConta { get; set; }
+        public string TipoDeConta { get; set; }
 
-        public abstract object TipoDeConta { get; }
+        // AGORA É 100% PÚBLICO. O JSON VAI CONSEGUIR LER.
+        public decimal Saldo { get; set; }
 
-        public virtual void Deposito(decimal valor)
+        [JsonIgnore]
+        public Cliente Titular { get; set; }
+
+        public Conta()
         {
-            if (valor <= 0)
-            {
-                Console.WriteLine("Valor inválido.");
-                return;
-            }
-
-            Saldo += valor;
+            // Construtor vazio
         }
 
-        public abstract void Saque(decimal valor);
+        public virtual void Saque(decimal valor)
+        {
+            if (valor > Saldo)
+            {
+                Console.WriteLine("Saldo insuficiente!");
+            }
+            else
+            {
+                Saldo -= valor;
+                Console.WriteLine($"Saque de {valor:C} realizado!");
+            }
+        }
+
+        public void Deposito(decimal valor)
+        {
+            Saldo += valor;
+        }
     }
 }

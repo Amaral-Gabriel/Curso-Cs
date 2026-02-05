@@ -1,30 +1,31 @@
-﻿namespace ConsoleApp1
+﻿using System;
+
+namespace ConsoleApp1
 {
-    internal class ContaCorrente : Conta
+    public class ContaCorrente : Conta
     {
-      
-        public override string TipoDeConta => "Conta Corrente";
+        public ContaCorrente()
+        {
+            TipoDeConta = "Conta Corrente";
+        }
 
-        private decimal taxaDeSaque = 5;
-
+        // AQUI ESTÁ A LÓGICA DA TAXA DE 5 REAIS
         public override void Saque(decimal valor)
         {
-            if (valor <= 0)
+            decimal taxa = 5.00m; // Define a taxa fixa
+            decimal totalDoSaque = valor + taxa; // Valor + 5 reais
+
+            if (totalDoSaque > Saldo)
             {
-                Console.WriteLine("Valor inválido.");
-                return;
-            } if (Saldo < valor)
-            {
-                Console.WriteLine("Saldo insuficiente.");
+                Console.WriteLine($"Saldo insuficiente! Você precisa de {totalDoSaque:C} (Saque + Taxa de {taxa:C})");
+                Console.WriteLine($"Seu saldo atual é apenas: {Saldo:C}");
             }
             else
             {
-                Saldo -= taxaDeSaque;
-                Saldo -= valor;
+                Saldo -= totalDoSaque; // Tira o dinheiro E a taxa da conta
+                Console.WriteLine($"Saque de {valor:C} realizado com sucesso!");
+                Console.WriteLine($"Taxa de operação: {taxa:C}");
             }
-  
-
-                
         }
     }
 }
