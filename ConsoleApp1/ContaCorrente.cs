@@ -9,11 +9,11 @@ namespace ConsoleApp1
             TipoDeConta = "Conta Corrente";
         }
 
-        // AQUI ESTÁ A LÓGICA DA TAXA DE 5 REAIS
+        
         public override void Saque(decimal valor)
         {
-            decimal taxa = 5.00m; // Define a taxa fixa
-            decimal totalDoSaque = valor + taxa; // Valor + 5 reais
+            decimal taxa = 5.00m; 
+            decimal totalDoSaque = valor + taxa; 
 
             if (totalDoSaque > Saldo)
             {
@@ -22,7 +22,7 @@ namespace ConsoleApp1
             }
             else
             {
-                Saldo -= totalDoSaque; // Tira o dinheiro E a taxa da conta
+                Saldo -= totalDoSaque; 
                 Console.WriteLine($"Saque de {valor:C} realizado com sucesso!");
                 Console.WriteLine($"Taxa de operação: {taxa:C}");
             }

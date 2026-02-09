@@ -18,7 +18,7 @@ namespace ConsoleApp1
                 BancoDeDados.Salvar(clientes);
             }
 
-            // 3. Loop Principal do Sistema
+            
             while (true)
             {
                 Console.Clear();
@@ -32,21 +32,19 @@ namespace ConsoleApp1
                 Console.Write("Senha: ");
                 string senha = Console.ReadLine();
 
-                // Validação simples para não travar
+                
                 if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(senha))
                 {
-                    continue; // Volta para o começo se deixar em branco
+                    continue;
                 }
 
-                // Tenta achar o cliente
+                
                 Cliente clienteLogado = clientes.FirstOrDefault(c => c.Nome == nome && c.Senha == senha);
 
                 if (clienteLogado != null)
                 {
-                    // Entra no Menu do Cliente
                     Menu.MenuPrincipal(clienteLogado);
 
-                    // Ao sair do menu (logout), salva tudo automaticamente
                     BancoDeDados.Salvar(clientes);
                 }
                 else

@@ -7,7 +7,7 @@ namespace ConsoleApp1
 {
     public static class BancoDeDados
     {
-        // Caminho seguro (onde o executável está)
+        // onde o executável está
         private static string CaminhoArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "banco_dados.json");
 
         public static void Salvar(List<Cliente> clientes)
@@ -34,7 +34,6 @@ namespace ConsoleApp1
                 string json = File.ReadAllText(CaminhoArquivo);
                 List<Cliente> clientes = JsonSerializer.Deserialize<List<Cliente>>(json);
 
-                // Reconecta os titulares (necessário após carregar do JSON)
                 foreach (var cliente in clientes)
                 {
                     foreach (var conta in cliente.Contas)

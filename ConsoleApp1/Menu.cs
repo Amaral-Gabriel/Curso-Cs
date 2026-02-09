@@ -56,7 +56,6 @@ namespace ConsoleApp1
                 Console.WriteLine("1. Sacar");
                 Console.WriteLine("2. Depositar");
 
-                // SE FOR POUPANÇA, MOSTRA A OPÇÃO DE RENDER
                 if (conta is ContaPoupanca)
                 {
                     Console.WriteLine("3. Render Juros (Simular Mês)");
@@ -88,7 +87,6 @@ namespace ConsoleApp1
                 }
                 else if (op == "3" && conta is ContaPoupanca poupanca)
                 {
-                    // AQUI A MÁGICA ACONTECE
                     poupanca.RenderJuros();
                     Console.ReadLine();
                 }

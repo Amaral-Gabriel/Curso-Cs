@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic; // Necessário para usar List<>
+using System.Collections.Generic; 
 
 namespace ConsoleApp1
 {
@@ -7,21 +7,19 @@ namespace ConsoleApp1
     {
         public int Id { get; set; }
         public string Nome { get; set; }
-        public string Senha { get; set; } // <--- NOVO: Necessário para o Login
+        public string Senha { get; set; } 
 
-        // A lista já nasce instanciada para evitar erros de "NullReference"
+        
         public List<Conta> Contas { get; set; } = new List<Conta>();
 
         public void AdicionarConta(Conta conta)
         {
-            // Adiciona na lista deste cliente
             Contas.Add(conta);
 
-            // Avisa para a conta que este cliente é o dono dela
+            
             conta.Titular = this;
         }
 
-        // Método opcional para listar na tela (ajuda nos testes)
         public void MostrarContas()
         {
             Console.WriteLine($"\nContas de {Nome}:");

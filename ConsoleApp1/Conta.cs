@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json.Serialization; // <--- ISSO CORRIGE O ERRO DE BUILD
+using System.Text.Json.Serialization; 
 
 namespace ConsoleApp1
 {
@@ -10,7 +10,7 @@ namespace ConsoleApp1
         public int NumeroDaConta { get; set; }
         public string TipoDeConta { get; set; }
 
-        // AGORA É 100% PÚBLICO. O JSON VAI CONSEGUIR LER.
+        
         public decimal Saldo { get; set; }
 
         [JsonIgnore]
@@ -18,7 +18,7 @@ namespace ConsoleApp1
 
         public Conta()
         {
-            // Construtor vazio
+            
         }
 
         public virtual void Saque(decimal valor)

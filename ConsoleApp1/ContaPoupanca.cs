@@ -11,28 +11,28 @@ namespace ConsoleApp1
 
         public override void Saque(decimal valor)
         {
-            // Taxa de 0.10 centavos
-            if (valor + 0.10m > Saldo)
+            
+            if (valor > Saldo)
             {
-                Console.WriteLine("Saldo insuficiente para saque + taxa!");
+                Console.WriteLine("Saldo insuficiente!");
             }
             else
             {
-                Saldo -= (valor + 0.10m);
-                Console.WriteLine($"Saque de {valor:C} realizado (Taxa: R$ 0,10)");
+                Saldo -= valor;
+                Console.WriteLine($"Saque de {valor:C} realizado.");
             }
         }
 
-        // --- NOVO: FAZ O DINHEIRO CRESCER ---
+        
         public void RenderJuros()
         {
-            decimal taxa = 0.05m; // 5% de rendimento
+            decimal taxa = 0.01m;
             decimal lucro = Saldo * taxa;
 
             Saldo += lucro;
 
             Console.WriteLine($"\n[SUCESSO] Rendimento aplicado!");
-            Console.WriteLine($"Você ganhou: {lucro:C}");
+            Console.WriteLine($"Você recebeu: {lucro:C}");
             Console.WriteLine($"Novo Saldo: {Saldo:C}");
         }
     }
