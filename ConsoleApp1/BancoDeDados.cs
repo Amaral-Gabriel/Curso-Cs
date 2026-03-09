@@ -8,7 +8,7 @@ namespace ConsoleApp1
     public static class BancoDeDados
     {
         // onde o executável está
-        private static string CaminhoArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "banco_dados.json");
+        private static string CaminhoArquivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Resources", "banco_dados.json");
 
         public static void Salvar(List<Cliente> clientes)
         {
@@ -27,12 +27,21 @@ namespace ConsoleApp1
 
         public static List<Cliente> Carregar()
         {
+
             if (!File.Exists(CaminhoArquivo)) return new List<Cliente>();
 
             try
             {
                 string json = File.ReadAllText(CaminhoArquivo);
-                List<Cliente> clientes = JsonSerializer.Deserialize<List<Cliente>>(json);
+
+                var options = new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    IncludeFields = true,
+                    
+                };
+
+                List<Cliente> clientes = JsonSerializer.Deserialize<List<Cliente>>(json, options);
 
                 foreach (var cliente in clientes)
                 {
@@ -41,12 +50,15 @@ namespace ConsoleApp1
                         conta.Titular = cliente;
                     }
                 }
+
                 return clientes;
             }
             catch
             {
                 return new List<Cliente>();
             }
-        }
+        } 
+    
+   
     }
 }

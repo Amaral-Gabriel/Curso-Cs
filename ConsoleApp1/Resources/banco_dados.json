@@ -1,0 +1,66 @@
+[
+  {
+    "Id": 1,
+    "Nome": "Admin",
+    "Senha": "123",
+    "Contas": [
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 1001,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 10000
+      },
+      {
+        "$type": "poupanca",
+        "NumeroDaConta": 1002,
+        "TipoDeConta": "Conta Poupan\u00E7a",
+        "Saldo": 505.00
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Nome": "Gabriel",
+    "Senha": "1601",
+    "Contas": [
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 2001,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 30000
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Nome": "Vorcado",
+    "Senha": "171",
+    "Contas": [
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 3001,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 20000000
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Nome": "Alexandre de Moraes",
+    "Senha": "456",
+    "Contas": [
+      {
+        "$type": "poupanca",
+        "NumeroDaConta": 4001,
+        "TipoDeConta": "Conta Poupan\u00E7a",
+        "Saldo": 500
+      },
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 4002,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 30000
+      }
+    ]
+  }
+]

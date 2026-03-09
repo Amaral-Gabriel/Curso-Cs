@@ -10,15 +10,8 @@ namespace ConsoleApp1
         {
             // 1. Carrega os dados silenciosamente
             List<Cliente> clientes = BancoDeDados.Carregar();
-
-            // 2. Se for a primeira vez, cria o Admin
-            if (clientes.Count == 0)
-            {
-                clientes = GerarDadosTeste();
-                BancoDeDados.Salvar(clientes);
-            }
-
             
+
             while (true)
             {
                 Console.Clear();
@@ -38,7 +31,7 @@ namespace ConsoleApp1
 
 
                 Console.Write("Usuário: ");
-                string nome = Console.ReadLine().ToLower();
+                string nome = Console.ReadLine();
 
                 Console.Write("Senha: ");
                 string senha = Console.ReadLine();
@@ -54,8 +47,9 @@ namespace ConsoleApp1
 
                 if (clienteLogado != null)
                 {
-                    Menu.MenuPrincipal(clienteLogado);
+                    Menu.MenuPrincipal(clienteLogado, clientes);
 
+                   
                     BancoDeDados.Salvar(clientes);
                 }
                 else

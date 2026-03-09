@@ -1,0 +1,28 @@
+[
+  {
+    "Id": 1,
+    "Nome": "Admin",
+    "Senha": "123",
+    "Contas": [
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 1001,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 10000
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Nome": "Gabriel",
+    "Senha": "1601",
+    "Contas": [
+      {
+        "$type": "corrente",
+        "NumeroDaConta": 2001,
+        "TipoDeConta": "Conta Corrente",
+        "Saldo": 29995.00
+      }
+    ]
+  }
+]

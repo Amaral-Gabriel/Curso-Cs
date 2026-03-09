@@ -5,7 +5,7 @@ namespace ConsoleApp1
 {
     public static class Menu
     {
-        public static void MenuPrincipal(Cliente cliente)
+        public static void MenuPrincipal(Cliente cliente, List<Cliente> clientes)
         {
             while (true)
             {
