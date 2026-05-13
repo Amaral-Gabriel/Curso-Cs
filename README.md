@@ -34,15 +34,4 @@ API REST de banco digital com operações de depósito, saque e PIX. Construída
 
 > O MySQL deve estar rodando com usuário `root` e senha `cimatec`. Se sua senha for diferente, altere em `BancoAPI/appsettings.json`.
 
-## Endpoints principais
 
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| POST | `/api/auth/register` | Cadastro de usuário |
-| POST | `/api/auth/login` | Login (retorna token JWT) |
-| GET | `/api/contas` | Listar contas do usuário |
-| POST | `/api/transacoes/deposito` | Depósito |
-| POST | `/api/transacoes/saque` | Saque |
-| POST | `/api/transacoes/pix` | Transferência PIX |
-
-Documentação completa disponível em `http://localhost:5118/swagger`.
