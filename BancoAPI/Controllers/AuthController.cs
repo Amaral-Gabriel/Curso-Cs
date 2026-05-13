@@ -10,15 +10,11 @@ namespace BancoAPI.Controllers
     {
         private readonly AuthService _authService;
 
-        public AuthController(AuthService authService)
-        {
-            _authService = authService;
-        }
+        public AuthController(AuthService authService) => _authService = authService;
 
-        /// <summary>Registra um novo cliente</summary>
         [HttpPost("register")]
-        [ProducesResponseType(typeof(object), 201)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(typeof(object), 400)]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
         {
             try
@@ -32,10 +28,9 @@ namespace BancoAPI.Controllers
             }
         }
 
-        /// <summary>Realiza login e retorna o token JWT</summary>
         [HttpPost("login")]
         [ProducesResponseType(typeof(TokenResponseDto), 200)]
-        [ProducesResponseType(401)]
+        [ProducesResponseType(typeof(object), 401)]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
             try

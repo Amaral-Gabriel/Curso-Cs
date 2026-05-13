@@ -1,55 +1,52 @@
+using BancoAPI.Data;
 using BancoAPI.DTOs;
 using BancoAPI.Models;
-using BancoAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BancoAPI.Services
 {
     public class ClienteService
     {
-        private readonly IClienteRepository _clienteRepo;
+        private readonly BancoContext _context;
 
-        public ClienteService(IClienteRepository clienteRepo)
-        {
-            _clienteRepo = clienteRepo;
-        }
+        public ClienteService(BancoContext context) => _context = context;
 
         public async Task<List<ClienteResponseDto>> GetAllAsync()
         {
-            var clientes = await _clienteRepo.GetAllAsync();
+            var clientes = await _context.Clientes.Include(c => c.Contas).ToListAsync();
             return clientes.Select(MapToDto).ToList();
         }
 
         public async Task<ClienteResponseDto> GetByIdAsync(int id)
         {
-            var cliente = await _clienteRepo.GetByIdAsync(id)
+            var cliente = await _context.Clientes.Include(c => c.Contas).FirstOrDefaultAsync(c => c.Id == id)
                 ?? throw new KeyNotFoundException("Cliente não encontrado.");
             return MapToDto(cliente);
         }
 
         public async Task<ClienteResponseDto> UpdateAsync(int id, ClienteUpdateDto dto)
         {
-            var cliente = await _clienteRepo.GetByIdAsync(id)
+            var cliente = await _context.Clientes.FindAsync(id)
                 ?? throw new KeyNotFoundException("Cliente não encontrado.");
 
-            var emailEmUso = await _clienteRepo.GetByEmailAsync(dto.Email);
-            if (emailEmUso != null && emailEmUso.Id != id)
+            if (await _context.Clientes.AnyAsync(c => c.Email == dto.Email && c.Id != id))
                 throw new InvalidOperationException("Email já em uso por outro cliente.");
 
             cliente.Nome = dto.Nome;
             cliente.Email = dto.Email;
-
-            await _clienteRepo.UpdateAsync(cliente);
+            await _context.SaveChangesAsync();
             return MapToDto(cliente);
         }
 
         public async Task DeleteAsync(int id)
         {
-            var cliente = await _clienteRepo.GetByIdAsync(id)
+            var cliente = await _context.Clientes.FindAsync(id)
                 ?? throw new KeyNotFoundException("Cliente não encontrado.");
-            await _clienteRepo.DeleteAsync(cliente);
+            _context.Clientes.Remove(cliente);
+            await _context.SaveChangesAsync();
         }
 
-        private ClienteResponseDto MapToDto(Cliente c) => new()
+        private static ClienteResponseDto MapToDto(Cliente c) => new()
         {
             Id = c.Id,
             Nome = c.Nome,

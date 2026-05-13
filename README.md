@@ -1,62 +1,43 @@
-# Curso-Cs (Aplicação Bancária)
+# Banco Master
 
-Aplicação de console em C# que simula um sistema bancário simples para fins de estudo. Suporta clientes com múltiplas contas (corrente e poupança), operações de saque/depósito e persistência em JSON.
+API REST de banco digital com operações de depósito, saque e PIX. Construída em ASP.NET Core com banco de dados MySQL e autenticação JWT.
 
-Recursos principais
-- Login de cliente (usuário + senha)
-- Suporte a `ContaCorrente` e `ContaPoupanca`
-- Saque (com taxa para conta corrente) e depósito
-- Simulação de rendimento para poupança
-- Persistência em `ConsoleApp1/Resources/banco_dados.json` (o aplicativo lê/grava diretamente esse arquivo)
-- Usuário Admin padrão: `Admin` / `123` (caso exista no JSON)
+## Requisitos
 
-Requisitos
-- .NET SDK (versão usada no projeto: `net8.0`)
+- [.NET SDK 10](https://dotnet.microsoft.com/download)
+- MySQL 8.0 com usuário `root` e senha `cimatec`
 
-Como clonar
-- Verifique se o Git está instalado: `git --version`
-- Via HTTPS:
-  - `git clone https://github.com/Amaral-Gabriel/Curso-Cs.git`
-- Via SSH (se configurado):
-  - `git clone git@github.com:Amaral-Gabriel/Curso-Cs.git`
+## Como rodar
 
-Após clonar:
-- `cd Curso-Cs`
-- Abra no VS Code: `code .` ou na IDE de sua preferência.
+1. Clone o repositório:
+   ```
+   git clone https://github.com/Amaral-Gabriel/Curso-Cs.git
+   cd Curso-Cs
+   ```
 
-Como rodar
-1. Pela CLI (recomendado):
-   - Na raiz do repositório, execute:
-     - `dotnet run --project .\ConsoleApp1`
-   - Ou entre na pasta do projeto e rode:
-     - `cd ConsoleApp1`
-     - `dotnet run`
+2. Crie o banco de dados:
+   ```
+   dotnet ef database update --project BancoAPI
+   ```
 
-2. No Visual Studio:
-   - Abra a solução `Curso-Cs` e defina `ConsoleApp1` como projeto de inicialização.
-   - Execute com Debug (F5) ou sem Debug (Ctrl+F5).
+3. Rode a API:
+   ```
+   dotnet run --project BancoAPI
+   ```
 
-Observações sobre o arquivo de dados
-- O arquivo de dados do projeto fica em `ConsoleApp1/Resources/banco_dados.json`.
-- A aplicação foi configurada para ler e gravar diretamente nesse arquivo na pasta do projeto (não usa cópia em `bin/Debug`), portanto alterações são persistidas diretamente lá.
-- Evite manter várias cópias do `banco_dados.json` para não ter divergências.
+4. Acesse no navegador: `http://localhost:5118`
 
-Estrutura principal dos arquivos
-- `Program.cs` — ponto de entrada e fluxo de login.
-- `Menu.cs` — interface de console e navegação.
-- `Cliente.cs` — modelo de cliente e listas de contas.
-- `Conta.cs`, `ContaCorrente.cs`, `ContaPoupanca.cs` — modelos de conta e operações.
-- `BancoDeDados.cs` — leitura/escrita do JSON.
+> O MySQL deve estar rodando com usuário `root` e senha `cimatec`. Se sua senha for diferente, altere em `BancoAPI/appsettings.json`.
 
-Contribuição
-- Pull requests e issues são bem-vindos.
+## Endpoints principais
 
-Usuários de teste (para login rápido)
-- `Admin` / `123` — Conta Corrente Nº 1001 — Saldo: 10000
-- `Gabriel` / `1601` — Conta Corrente Nº 2001 — Saldo: 30000
-- `Vorcado` / `171` — Conta Corrente Nº 3001 — Saldo: 20000000
-- `Alexandre de Moraes` / `456` — Conta Poupança Nº 4001 (Saldo: 500) e Conta Corrente Nº 4002 (Saldo: 30000)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/api/auth/register` | Cadastro de usuário |
+| POST | `/api/auth/login` | Login (retorna token JWT) |
+| GET | `/api/contas` | Listar contas do usuário |
+| POST | `/api/transacoes/deposito` | Depósito |
+| POST | `/api/transacoes/saque` | Saque |
+| POST | `/api/transacoes/pix` | Transferência PIX |
 
-Observações
-- Os logins são sensíveis a maiúsculas e espaços. Digite exatamente como na lista ou remova espaços acidentais.
-- O arquivo de dados está em `ConsoleApp1/Resources/banco_dados.json`. Alterações realizadas na aplicação serão gravadas nesse arquivo.
+Documentação completa disponível em `http://localhost:5118/swagger`.

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet new *)",
+      "Bash(dotnet add *)",
+      "Bash(dotnet build *)",
+      "Bash(dotnet restore *)",
+      "Bash(dotnet tool *)",
+      "Bash(dotnet ef *)",
+      "PowerShell(Invoke-RestMethod -Uri \"http://localhost:5118/api/auth/register\" -Method POST -ContentType \"application/json\" -Body '{\"nome\":\"Teste Silva\",\"email\":\"teste@email.com\",\"senha\":\"123456\",\"tipoConta\":\"Corrente\"}')",
+      "PowerShell($res = Invoke-WebRequest -Uri \"http://localhost:5118/api/auth/register\" -Method POST -ContentType \"application/json\" -Body '{\"nome\":\"Teste Silva\",\"email\":\"teste@email.com\",\"senha\":\"123456\",\"tipoConta\":\"Corrente\"}'; Write-Output \"Status: $\\($res.StatusCode\\)\"; Write-Output \"Body: $\\($res.Content\\)\")",
+      "PowerShell($res = Invoke-WebRequest -Uri \"http://localhost:5118/api/auth/register\" -Method POST -ContentType \"application/json\" -Body '{\"nome\":\"Teste Silva\",\"email\":\"teste2@email.com\",\"senha\":\"123456\",\"tipoConta\":\"Poupanca\"}'; Write-Output \"Status: $\\($res.StatusCode\\)\"; Write-Output \"Body: $\\($res.Content\\)\")",
+      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root -p123456 -e \"SELECT c.Id, c.Nome, ct.NumeroConta, ct.Tipo, ct.Saldo FROM banco_db.Clientes c JOIN banco_db.Contas ct ON ct.ClienteId = c.Id WHERE c.Id = 4;\")",
+      "PowerShell(& \"C:\\\\Program Files\\\\MySQL\\\\MySQL Server 8.0\\\\bin\\\\mysql.exe\" -u root -p123456 -e \"SELECT Id, Nome, Email, Perfil FROM banco_db.Clientes;\")"
+    ]
+  }
+}

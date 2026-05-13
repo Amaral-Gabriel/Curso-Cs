@@ -9,7 +9,7 @@ namespace BancoAPI.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder<BancoContext>();
             optionsBuilder.UseMySql(
-                "Server=localhost;Database=banco_db;User=root;Password=root;",
+                "Server=localhost;Port=3306;Database=banco_db;User=root;Password=cimatec;AllowPublicKeyRetrieval=True;SslMode=None;",
                 new MySqlServerVersion(new Version(8, 0, 0))
             );
             return new BancoContext(optionsBuilder.Options);

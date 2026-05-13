@@ -21,6 +21,9 @@ namespace BancoAPI.DTOs
 
         [Required, MinLength(6)]
         public string Senha { get; set; } = string.Empty;
+
+        [Required]
+        public string TipoConta { get; set; } = "Corrente"; // "Corrente" ou "Poupanca"
     }
 
     public class TokenResponseDto

@@ -1,49 +1,64 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BancoAPI.Data;
 using BancoAPI.DTOs;
 using BancoAPI.Models;
-using BancoAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BancoAPI.Services
 {
     public class AuthService
     {
-        private readonly IClienteRepository _clienteRepo;
+        private readonly BancoContext _context;
         private readonly IConfiguration _config;
 
-        public AuthService(IClienteRepository clienteRepo, IConfiguration config)
+        public AuthService(BancoContext context, IConfiguration config)
         {
-            _clienteRepo = clienteRepo;
+            _context = context;
             _config = config;
         }
 
         public async Task<Cliente> RegisterAsync(RegisterDto dto)
         {
-            var existente = await _clienteRepo.GetByEmailAsync(dto.Email);
-            if (existente != null)
+            if (await _context.Clientes.AnyAsync(c => c.Email == dto.Email))
                 throw new InvalidOperationException("Email já cadastrado.");
+
+            if (dto.TipoConta != "Corrente" && dto.TipoConta != "Poupanca")
+                throw new InvalidOperationException("Tipo de conta inválido. Use 'Corrente' ou 'Poupanca'.");
 
             var cliente = new Cliente
             {
                 Nome = dto.Nome,
                 Email = dto.Email,
-                SenhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha),
+                SenhaHash = dto.Senha,
                 Perfil = "Cliente"
             };
 
-            return await _clienteRepo.CreateAsync(cliente);
+            _context.Clientes.Add(cliente);
+            await _context.SaveChangesAsync();
+
+            _context.Contas.Add(new Conta
+            {
+                NumeroConta = GerarNumeroConta(),
+                Tipo = dto.TipoConta,
+                TaxaSaque = dto.TipoConta == "Corrente" ? 2.50m : 0,
+                TaxaJuros = dto.TipoConta == "Poupanca" ? 0.005m : 0,
+                ClienteId = cliente.Id
+            });
+            await _context.SaveChangesAsync();
+
+            return cliente;
         }
 
         public async Task<TokenResponseDto> LoginAsync(LoginDto dto)
         {
-            var cliente = await _clienteRepo.GetByEmailAsync(dto.Email);
-            if (cliente == null || !BCrypt.Net.BCrypt.Verify(dto.Senha, cliente.SenhaHash))
+            var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Email == dto.Email);
+            if (cliente == null || cliente.SenhaHash != dto.Senha)
                 throw new UnauthorizedAccessException("Email ou senha inválidos.");
 
-            var token = GerarToken(cliente);
-            return new TokenResponseDto { Token = token, Nome = cliente.Nome, Perfil = cliente.Perfil };
+            return new TokenResponseDto { Token = GerarToken(cliente), Nome = cliente.Nome, Perfil = cliente.Perfil };
         }
 
         private string GerarToken(Cliente cliente)
@@ -59,16 +74,18 @@ namespace BancoAPI.Services
                 new Claim(ClaimTypes.Role, cliente.Perfil)
             };
 
-            var horas = int.Parse(_config["Jwt:ExpiracaoHoras"]!);
             var token = new JwtSecurityToken(
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(horas),
+                expires: DateTime.Now.AddHours(int.Parse(_config["Jwt:ExpiracaoHoras"]!)),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        private static string GerarNumeroConta()
+            => Random.Shared.Next(10000000, 99999999) + "-" + Random.Shared.Next(0, 9);
     }
 }

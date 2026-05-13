@@ -1,6 +1,5 @@
 using System.Text;
 using BancoAPI.Data;
-using BancoAPI.Repositories;
 using BancoAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +16,7 @@ builder.Services.AddDbContext<BancoContext>(options =>
     )
 );
 
-// Repositórios e Serviços
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IContaRepository, ContaRepository>();
+// Serviços
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<ContaService>();
@@ -51,7 +48,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "BancoAPI",
+        Title = "Banco Master",
         Version = "v1",
         Description = "API REST de banco simples com depósito, saque e PIX."
     });
@@ -89,7 +86,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "BancoAPI v1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banco Master v1");
     c.RoutePrefix = "swagger";
 });
 
