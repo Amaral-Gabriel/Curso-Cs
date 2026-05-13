@@ -50,7 +50,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Banco Master",
         Version = "v1",
-        Description = "API REST de banco simples com depósito, saque e PIX."
+        Description = "API REST"
     });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
