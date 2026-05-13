@@ -15,17 +15,22 @@ API REST de banco digital com operações de depósito, saque e PIX. Construída
    cd Curso-Cs
    ```
 
-2. Crie o banco de dados:
+2. Restaure as dependências:                                                                                                               
+   ```
+   dotnet restore BancoAPI/BancoAPI.csproj 
+   ```
+
+3. Crie o banco de dados:
    ```
    dotnet ef database update --project BancoAPI
    ```
 
-3. Rode a API:
+4. Rode a API:
    ```
    dotnet run --project BancoAPI
    ```
 
-4. Acesse no navegador: `http://localhost:5118`
+5. Acesse no navegador: `http://localhost:5118`
 
 > O MySQL deve estar rodando com usuário `root` e senha `cimatec`. Se sua senha for diferente, altere em `BancoAPI/appsettings.json`.
 
