@@ -1,6 +1,6 @@
 # Banco Master
 
-API REST de banco digital com operações de depósito, saque e PIX. Construída em ASP.NET Core com banco de dados MySQL e autenticação JWT.
+Projeto da 3ª Sprint do curso de Back-End do Ford Enter.
 
 ## Requisitos
 
